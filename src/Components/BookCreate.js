@@ -1,8 +1,12 @@
-import React from 'react'
-import { useState } from 'react'
+// import { useContext } from 'react'--->used custom hooks
+import React, { useState } from 'react'
+import useBookContext from '../CustomHooks/use-Custom-Hooks'
+// import BooksContext from '../Context/Books' --->--->used custom hooks
 
 function BookCreate({onCreate}) {
     const[title,setTitle] = useState('')
+    //const {createBookFromContext} = useContext(BooksContext) //instead of"useContext(BooksContext)" use useBookContext() customhook
+    const {createBookFromContext} = useBookContext()
 
     const handelChange = (e) =>{
         setTitle(e.target.value)
@@ -11,7 +15,7 @@ function BookCreate({onCreate}) {
     const handelSubmit = (e) =>{
         e.preventDefault();
         // onCreate is a callback, handelsubmit form atva button inda trigger adre then we need to pass title to App component
-        onCreate(title)
+        createBookFromContext(title)
         //to clear the input once submit form
         setTitle('')
 

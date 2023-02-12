@@ -1,13 +1,17 @@
 import React from 'react'
 import { useState } from 'react'
-import BookEdit from './BookEdit'
+import BookEdit from './BookEdit' 
+//import BooksContext from '../Context/Books';
+import useBookContext from '../CustomHooks/use-Custom-Hooks'
 
-function BookShow({ bookfromMap, onDeleteChildToParent, onEditChildToParent  }) {
+function BookShow({ bookfromMap}) {
 
     const [showEdit, setShowEdit] = useState(false);
+    //const {deleteBookByIdFromContext} = useContext(BooksContext)//instead of"useContext(BooksContext)" use useBookContext() customhook
+    const {deleteBookByIdFromContext} = useBookContext()
 
     const handelDeleteClick = () => {
-        onDeleteChildToParent(bookfromMap.id)
+        deleteBookByIdFromContext(bookfromMap.id)
     }
     const handelEditClick = () => {
         setShowEdit(!showEdit);
@@ -15,14 +19,12 @@ function BookShow({ bookfromMap, onDeleteChildToParent, onEditChildToParent  }) 
 
 
     //single callback function/single Event Handler there passing down to edit
-   const  handelEditSubmit = (id,newtitle) =>{
+   const  handelEditSubmit = () =>{
         setShowEdit(false);
-        onEditChildToParent(id,newtitle)
     }
 
     let content = <h3>{bookfromMap.title}</h3>
     if(showEdit){
-        // content = <BookEdit Passing_Title_AsAProp_WhileEditing = {bookfromMap} onEditChildToParent = {onEditChildToParent}/>;
         content = <BookEdit Passing_Title_AsAProp_WhileEditing = {bookfromMap} onEdit={handelEditSubmit}/>;
     }
 
